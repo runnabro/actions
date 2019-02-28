@@ -43,23 +43,22 @@ echo ${ASSET_ID}
 echo ${RAML_PATH}
 echo ${MAIN_FILE}
 
-
-zip -r raml.zip ${RAML_PATH}
+zip -j -r raml.zip ${RAML_PATH}
 
 echo "Created Zip Archive"
 
 curl -i -X POST \
    -H "Authorization:Bearer ${ANYPOINT_TOKEN}" \
    -H "Content-Type:multipart/form-data" \
-   -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
    -F "name=${ASSET_ID}" \
-   -F "apiVersion=v3" \
+   -F "apiVersion=v1" \
    -F "classifier=raml" \
    -F "groupId=${ORG_ID}" \
    -F "assetId=${ASSET_ID}" \
-   -F "version=1.0.0" \
+   -F "version=1.0.1" \
    -F "main=${MAIN_FILE}" \
    -F "organizationId=${ORG_ID}" \
+   -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
  https://anypoint.mulesoft.com/exchange/api/v1/assets
 
 
