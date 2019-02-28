@@ -1,5 +1,17 @@
 ## GitHub Actions for Anypoint Exchange Sync
 
+## Problem
+
+Often, you have your RAML files in the GitHub repo and you need to syncronize them
+with Anypoint Exchange.
+
+A lot of teams do it either manually or setup custom steps in the build pipelines.
+
+Those days are gone.
+With the release of GitHub Actions it's possible to build flexible workflows 
+and import/reuse `raml synchonization` action in your workflows without 
+inventing anything.
+
 ## How it works
 
 The action can be used in 3 types of flows/events:
@@ -39,7 +51,6 @@ exact version that comes from git tag.
  - [ ] get token using clientid/clientsecret
  - [ ] publish status or deployment on GitHub after done
  - [ ] record demo
- - [ ] extra checks for events
 
 ## Ideas 
 
@@ -55,3 +66,7 @@ We can create following fields through API and assign them instead of tags:
  Those are Exchnage APIs that can be used
   - https://anypoint.mulesoft.com/exchange/portals/anypoint-platform/f1e97bc6-315a-4490-82a7-23abe036327a.anypoint-platform/exchange-experience-api/1.0.11/console/method/%231110/
   - https://anypoint.mulesoft.com/exchange/portals/anypoint-platform/f1e97bc6-315a-4490-82a7-23abe036327a.anypoint-platform/exchange-experience-api/1.0.11/console/method/%231800/
+
+ ### User defined tags
+
+ We can allow user to pass tags into the Action as argument. 

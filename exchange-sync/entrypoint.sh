@@ -59,12 +59,21 @@ fi
 if [[ $GITHUB_EVENT_NAME == "release" ]]; then
   echo "handle release"
   TAG="$(jq -r ".release.tag_name" "$GITHUB_EVENT_PATH")"
+  ACTION="$(jq -r ".action" "$GITHUB_EVENT_PATH")"
+  if [[ ACTION != "published"]]; then
+	echo "Nothing to do for action ${ACTION}"
+	exit 78
+  fi
   ASSET_VERSION=TAG
-  # TODO check that action is published
 fi
 ## if pull request the version is latest tag + '-PR-{NUMBER}'
 if [[ $GITHUB_EVENT_NAME == "pull_request" ]]; then
   echo "handle pull_request"
+  ACTION="$(jq -r ".action" "$GITHUB_EVENT_PATH")"
+  if [[ ACTION != "opened"] | [ ACTION != "synchronize"]]; then
+	echo "Nothing to do for action ${ACTION}"
+	exit 78
+  fi
   PR_NUMBER="$(jq -r ".number" "$GITHUB_EVENT_PATH")"
   ASSET_VERSION="${LAST_TAG}-PR-${PR_NUMBER}"
   # TODO check that action is sync or open
