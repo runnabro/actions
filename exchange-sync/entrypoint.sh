@@ -53,6 +53,7 @@ curl -i -X POST \
    -H "Content-Type:multipart/form-data" \
    -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
    -F "name=${ASSET_ID}" \
+   -F "apiVersion=v3" \
    -F "classifier=raml" \
    -F "groupId=${ORG_ID}" \
    -F "assetId=${ASSET_ID}" \
