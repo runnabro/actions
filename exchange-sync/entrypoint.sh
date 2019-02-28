@@ -51,9 +51,9 @@ echo "Created Zip Archive"
 curl -i -X POST \
    -H "Authorization:Bearer ${ANYPOINT_TOKEN}" \
    -H "Content-Type:multipart/form-data" \
-   -F "someFileNameIrrelevantItSeems=@\"raml-world.zip\";type=application/zip;filename=\"something.zip\"" \
+   -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
    -F "name=${ASSET_ID}" \
-   -F "classifier=custom" \
+   -F "classifier=raml" \
    -F "groupId=${ORG_ID}" \
    -F "assetId=${ASSET_ID}" \
    -F "version=1.0.0" \
