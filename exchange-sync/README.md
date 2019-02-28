@@ -2,7 +2,7 @@
 
 ### TODO
 
- - [ ] implmenent sync RAML action
+ - [ ] implement sync RAML action
  - [ ] specify path
  - [ ] get token using clientid/clientsecret
  - [ ] publish status on GitHub after done
