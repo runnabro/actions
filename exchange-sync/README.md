@@ -2,8 +2,8 @@
 
 ### TODO
 
- - [ ] implement sync RAML action
- - [ ] specify path
+ - [x] implement sync RAML action
+ - [x] specify path
  - [ ] get token using clientid/clientsecret
- - [ ] publish status on GitHub after done
- - []  check classifier
+ - [ ] publish status or deployment on GitHub after done
+ - [ ] snapshot support

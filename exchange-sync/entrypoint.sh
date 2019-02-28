@@ -55,11 +55,11 @@ curl -i -X POST \
    -F "classifier=raml" \
    -F "groupId=${ORG_ID}" \
    -F "assetId=${ASSET_ID}" \
-   -F "version=1.0.1" \
+   -F "version=1.0.1-SNAPSHOT" \
    -F "main=${MAIN_FILE}" \
    -F "organizationId=${ORG_ID}" \
    -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
- https://anypoint.mulesoft.com/exchange/api/v1/assets
+ https://qax.anypoint.mulesoft.com/exchange/api/v1/assets
 
 
 echo "==========Finished Anypoint Exchnage Sync=========="
