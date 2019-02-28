@@ -12,7 +12,7 @@ LABEL com.github.actions.icon="code"
 LABEL com.github.actions.color="purple"
 COPY LICENSE README.md /
 
-RUN apk --no-cache add jq bash curl zip
+RUN apk --no-cache add jq bash curl zip git
 
 COPY "entrypoint.sh" "/entrypoint.sh"
 ENTRYPOINT ["/entrypoint.sh"]
