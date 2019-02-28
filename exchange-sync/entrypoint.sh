@@ -4,6 +4,8 @@ set -e
 
 echo "==========Starting Anypoint Exchange Sync=========="
 
+echo "Handle ${GITHUB_EVENT_NAME} event"
+
 if [[ -z "$ANYPOINT_TOKEN" ]]; then
 	echo "Set the ANYPOINT_TOKEN env variable."
 	exit 1
@@ -76,7 +78,7 @@ echo "Published to ${exchange_url}"
 echo "Publish tags. Start."
 TAGS_URI="https://qax.anypoint.mulesoft.com/exchange/api/v1/organizations/${ORG_ID}/assets/${ORG_ID}/${ASSET_ID}/1.0.1-SNAPSHOT/tags"
 
-tags_resp=$(curl --data "[{\"key\":\"github_commit\", \"value\": \"$GITHUB_SHA\", \"mutable\": false}, {\"key\":\"github_user\", \"value\": \"$GITHUB_ACTOR\", \"mutable\": false}, {\"key\":\"github_repo\", \"value\": \"$GITHUB_REPOSITORY\", \"mutable\": false}]" -X PUT -s -H "Content-Type:application/json" -H "${AUTH_HEADER}" ${TAGS_URI})
+tags_resp=$(curl --data "[{\"key\":\"github_commit\", \"value\": \"github_commit:$GITHUB_SHA\", \"mutable\": false}, {\"key\":\"github_user\", \"value\": \"github_user:$GITHUB_ACTOR\", \"mutable\": false}, {\"key\":\"github_repo\", \"value\": \"github_repo:$GITHUB_REPOSITORY\", \"mutable\": false}]" -X PUT -s -H "Content-Type:application/json" -H "${AUTH_HEADER}" ${TAGS_URI})
 
 echo "$tags_resp"
 echo "Publish tags for assets. Done."
