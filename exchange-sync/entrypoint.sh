@@ -45,6 +45,25 @@ echo ${ORG_ID}
 echo ${ASSET_ID}
 echo ${RAML_PATH}
 echo ${MAIN_FILE}
+## TODO if master and PUSH we need to do `latest-tag-next-SNAPSHOT`
+if [[ $GITHUB_EVENT_NAME == "push" ]]; then
+  echo "handle release"
+  TAG="$(jq -r ".release.tag_name" "$GITHUB_EVENT_PATH")"
+  ASSET_VERSION=TAG
+  # TODO check that action is published
+fi
+if [[ $GITHUB_EVENT_NAME == "release" ]]; then
+  echo "handle release"
+  TAG="$(jq -r ".release.tag_name" "$GITHUB_EVENT_PATH")"
+  ASSET_VERSION=TAG
+  # TODO check that action is published
+fi
+if [[ $GITHUB_EVENT_NAME == "pull_request" ]]; then
+  echo "handle pull_request"
+  PR_NUMBER="$(jq -r ".number" "$GITHUB_EVENT_PATH")"
+  ASSET_VERSION="pr-${PR-NUMBER}-SNAPSHOT"
+  # TODO check that action is sync or open
+fi
 
 zip -j -r raml.zip ${RAML_PATH}
 
@@ -60,7 +79,7 @@ status_code=$(curl -v -i -X POST \
    -F "classifier=raml" \
    -F "groupId=${ORG_ID}" \
    -F "assetId=${ASSET_ID}" \
-   -F "version=1.0.1-SNAPSHOT" \
+   -F "version=ASSET_VERSION" \
    -F "main=${MAIN_FILE}" \
    -F "organizationId=${ORG_ID}" \
    -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
