@@ -47,7 +47,7 @@ zip -j -r raml.zip ${RAML_PATH}
 
 echo "Created Zip Archive"
 
-curl -i -X POST \
+status_code=$(curl --silent --output /dev/null --write-out %{http_code} -i -X POST \
    -H "Authorization:Bearer ${ANYPOINT_TOKEN}" \
    -H "Content-Type:multipart/form-data" \
    -F "name=${ASSET_ID}" \
@@ -59,7 +59,12 @@ curl -i -X POST \
    -F "main=${MAIN_FILE}" \
    -F "organizationId=${ORG_ID}" \
    -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
- https://qax.anypoint.mulesoft.com/exchange/api/v1/assets
+ https://qax.anypoint.mulesoft.com/exchange/api/v1/assets)
 
-
-echo "==========Finished Anypoint Exchnage Sync=========="
+if [[ "$status_code" -ne 200 ]] ; then
+  echo "Site status changed to $status_code"
+  exit 3
+else
+  echo "==========Finished Anypoint Exchnage Sync=========="
+  exit 0
+fi
