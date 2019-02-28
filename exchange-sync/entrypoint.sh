@@ -48,7 +48,7 @@ zip -j -r raml.zip ${RAML_PATH}
 
 echo "Created Zip Archive"
 
-curl -v -i -X POST \
+status_code=$(curl -v -i -X POST \
    -H "Authorization:Bearer ${ANYPOINT_TOKEN}" \
    -H "Content-Type:multipart/form-data" \
    -F "name=${ASSET_ID}" \
@@ -60,17 +60,12 @@ curl -v -i -X POST \
    -F "main=${MAIN_FILE}" \
    -F "organizationId=${ORG_ID}" \
    -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
- 'https://qax.anypoint.mulesoft.com/exchange/api/v1/assets'
+ https://qax.anypoint.mulesoft.com/exchange/api/v1/assets)
 
-echo "done"
-
-
-# status_code = $1
-
-# if [[ "$status_code" -ne 201 ]] ; then
-#   echo "Errored while pushing to Exchange. Status code: $status_code"
-#   exit 3
-# else
-#   echo "==========Finished Anypoint Exchange Sync=========="
-#   exit 0
-# fi
+if [[ "$status_code" -ne 201 ]] ; then
+  echo "Errored while pushing to Exchange. Status code: $status_code"
+  exit 3
+else
+  echo "==========Finished Anypoint Exchange Sync=========="
+  exit 0
+fi
