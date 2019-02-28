@@ -48,8 +48,10 @@ zip -j -r raml.zip ${RAML_PATH}
 
 echo "Created Zip Archive"
 
+AUTH_HEADER="Authorization: token ${ANYPOINT_TOKEN}"
+
 status_code=$(curl -v -i -X POST \
-   -H "Authorization:Bearer ${ANYPOINT_TOKEN}" \
+   -H "${AUTH_HEADER}" \
    -H "Content-Type:multipart/form-data" \
    -F "name=${ASSET_ID}" \
    -F "apiVersion=v1" \
@@ -62,10 +64,24 @@ status_code=$(curl -v -i -X POST \
    -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
  https://qax.anypoint.mulesoft.com/exchange/api/v1/assets)
 
+exchange_url="https://qax.anypoint.mulesoft.com/exchange/${ORG_ID}/${ASSET_ID}/"
+echo "Published to ${exchange_url}"
+
+echo "Publish tags"
+
+TAGS_URI="https://anypoint.mulesoft.com/exchange/api/v1/assets/${ORG_ID}/${ASSET_ID}/v1/tags"
+
+
+tags_resp=$(curl --data "[{\"key\":\"github_commit\", \"value\": \"$GITHUB_REF\", \"mutable\": false}]" -X PUT -s -H "${AUTH_HEADER}" ${TAGS_URI})
+
+echo "$tags_resp"
+echo "set tags for assets"
+
 if [[ "$status_code" -ne 201 ]] ; then
   echo "Errored while pushing to Exchange. Status code: $status_code"
   exit 3
 else
+    
   echo "==========Finished Anypoint Exchange Sync=========="
   exit 0
 fi
