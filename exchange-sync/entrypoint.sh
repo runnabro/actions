@@ -48,7 +48,7 @@ zip -j -r raml.zip ${RAML_PATH}
 
 echo "Created Zip Archive"
 
-status_code=$(curl --silent --output /dev/null --write-out %{http_code} -i -X POST \
+status_code=$(curl -v -i -X POST \
    -H "Authorization:Bearer ${ANYPOINT_TOKEN}" \
    -H "Content-Type:multipart/form-data" \
    -F "name=${ASSET_ID}" \
