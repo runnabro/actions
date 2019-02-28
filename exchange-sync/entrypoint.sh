@@ -2,13 +2,14 @@
 
 set -e
 
-echo "==========Starting Anypoint Exchnage Sync=========="
+echo "==========Starting Anypoint Exchange Sync=========="
 
 if [[ -z "$ANYPOINT_TOKEN" ]]; then
 	echo "Set the ANYPOINT_TOKEN env variable."
 	exit 1
 fi
 
+# parse args
 while [[ $# -gt 0 ]]
 do
 key="$1"
@@ -62,9 +63,9 @@ status_code=$(curl --silent --output /dev/null --write-out %{http_code} -i -X PO
  https://qax.anypoint.mulesoft.com/exchange/api/v1/assets)
 
 if [[ "$status_code" -ne 201 ]] ; then
-  echo "Site status changed to $status_code"
+  echo "Errored while pushing to Exchange. Status code: $status_code"
   exit 3
 else
-  echo "==========Finished Anypoint Exchnage Sync=========="
+  echo "==========Finished Anypoint Exchange Sync=========="
   exit 0
 fi

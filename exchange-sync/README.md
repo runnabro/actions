@@ -7,3 +7,4 @@
  - [ ] get token using clientid/clientsecret
  - [ ] publish status or deployment on GitHub after done
  - [ ] snapshot support
+ - [ ] publish link in the logs to the exchange asset
