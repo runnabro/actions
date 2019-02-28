@@ -65,7 +65,7 @@ fi
 ## if pull request the version is latest tag + '-PR-{NUMBER}'
 if [[ $GITHUB_EVENT_NAME == "pull_request" ]]; then
   echo "handle pull_request"
-  PR_NUMBER=1 #"$(jq -r ".number" "$GITHUB_EVENT_PATH")"
+  PR_NUMBER="$(jq -r ".number" "$GITHUB_EVENT_PATH")"
   ASSET_VERSION="${LAST_TAG}-PR-${PR_NUMBER}"
   # TODO check that action is sync or open
 fi
