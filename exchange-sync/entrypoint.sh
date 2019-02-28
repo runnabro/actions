@@ -72,7 +72,7 @@ echo "Publish tags"
 TAGS_URI="https://anypoint.mulesoft.com/exchange/api/v1/assets/${ORG_ID}/${ASSET_ID}/v1/tags"
 
 
-tags_resp=$(curl --data "[{\"key\":\"github_commit\", \"value\": \"$GITHUB_REF\", \"mutable\": false}]" -X PUT -s -H "${AUTH_HEADER}" ${TAGS_URI})
+tags_resp=$(curl --data "[{\"key\":\"github_commit\", \"value\": \"$GITHUB_REF\", \"mutable\": false}]" -X PUT -s -H "Content-Type:application/json" -H "${AUTH_HEADER}" ${TAGS_URI})
 
 echo "$tags_resp"
 echo "set tags for assets"
