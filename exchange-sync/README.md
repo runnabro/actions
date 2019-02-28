@@ -6,3 +6,4 @@
  - [ ] specify path
  - [ ] get token using clientid/clientsecret
  - [ ] publish status on GitHub after done
+ - []  check classifier

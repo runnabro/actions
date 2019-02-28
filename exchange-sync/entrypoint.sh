@@ -23,6 +23,7 @@ case $key in
     ASSET_ID="$2"
     shift # past argument
     shift # past value
+    ;;
     -p|--resource-path)
     RAML_PATH="$2"
     shift # past argument
