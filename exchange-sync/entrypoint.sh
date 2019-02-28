@@ -60,7 +60,7 @@ if [[ $GITHUB_EVENT_NAME == "release" ]]; then
   echo "handle release"
   TAG="$(jq -r ".release.tag_name" "$GITHUB_EVENT_PATH")"
   ACTION="$(jq -r ".action" "$GITHUB_EVENT_PATH")"
-  if [[ "$ACTION" != "published"]]; then
+  if [[ $ACTION != "published"]]; then
 	echo "Nothing to do for action ${ACTION}"
 	exit 78
   fi
@@ -70,7 +70,7 @@ fi
 if [[ $GITHUB_EVENT_NAME == "pull_request" ]]; then
   echo "handle pull_request"
   ACTION="$(jq -r ".action" "$GITHUB_EVENT_PATH")"
-  if [[ "$ACTION" != "opened"] | [ "$ACTION" != "synchronize"]]; then
+  if [[ $ACTION != "opened"] | [ $ACTION != "synchronize"]]; then
 	echo "Nothing to do for action ${ACTION}"
 	exit 78
   fi
