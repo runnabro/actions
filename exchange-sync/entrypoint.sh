@@ -120,7 +120,7 @@ exchange_url="${ANYPOINT_URL}/exchange/${ORG_ID}/${ASSET_ID}/"
 echo "Published to ${exchange_url}"
 
 echo "Publish tags. Start."
-TAGS_URI="${ANYPOINT_URL}/exchange/api/v1/organizations/${ORG_ID}/assets/${ORG_ID}/${ASSET_ID}/1.0.1-SNAPSHOT/tags"
+TAGS_URI="${ANYPOINT_URL}/exchange/api/v1/organizations/${ORG_ID}/assets/${ORG_ID}/${ASSET_ID}/${ASSET_VERSION}/tags"
 
 tags_resp=$(curl --data "[{\"key\":\"github_commit\", \"value\": \"github_commit:$GITHUB_SHA\", \"mutable\": false}, {\"key\":\"github_user\", \"value\": \"github_user:$GITHUB_ACTOR\", \"mutable\": false}, {\"key\":\"github_repo\", \"value\": \"github_repo:$GITHUB_REPOSITORY\", \"mutable\": false}]" -X PUT -s -H "Content-Type:application/json" -H "${AUTH_HEADER}" ${TAGS_URI})
 
