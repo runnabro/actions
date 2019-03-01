@@ -6,11 +6,6 @@ echo "==========Starting Anypoint Exchange Sync=========="
 
 echo "Handle ${GITHUB_EVENT_NAME} event and ref: ${GITHUB_REF}"
 
-if [[ -z "$GITHUB_TOKEN" ]]; then
-	echo "Set the GITHUB_TOKEN env variable."
-	exit 1
-fi
-
 if [[ -z "$ANYPOINT_USERNAME" ]]; then
 	echo "Set the ANYPOINT_USERNAME env variable."
 	exit 1
@@ -166,26 +161,6 @@ echo "New asset version is $ASSET_VERSION"
 zip -j -r raml.zip ${RAML_PATH}
 
 echo "Created Zip Archive"
-
-REPO_FULLNAME=$(jq -r ".repository.full_name" "$GITHUB_EVENT_PATH")
-
-DEFAULT_BRANCH=$(jq -r ".repository.default_branch" "$GITHUB_EVENT_PATH")
-echo "Creating new deployment for $REPO_FULLNAME..."
-
-GITHUB_URI=https://api.github.com
-DEPLOYMENTS_URI="${GITHUB_URI}/repos/$REPO_FULLNAME/deployments"
-GITHUB_API_HEADER="Accept: application/vnd.github.ant-man-preview+json"
-GITHUB_AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
-
-new_deployment_id=$(curl --data "{\"environment\":\"production\", \"ref\": \"$GITHUB_REF\", \"description\": \"Deploy to Anypoint Exchange\"}" -X POST -s -H "${GITHUB_AUTH_HEADER}" -H "${GITHUB_API_HEADER}" ${DEPLOYMENTS_URI})
-
-echo "created new deployment ${new_deployment_id}"
-
-DEPLOYMENTS_STATUSES_URI="${DEPLOYMENTS_URI}/${new_deployment_id}/statuses"
-new_deployment_id=$(curl --data "{\"environment\":\"production\", \"state\":\"success\", \"ref\": \"$GITHUB_REF\", \"description\": \"Deployed to Anypoint Exchange\"}" -X POST -s -H "${GITHUB_AUTH_HEADER}" -H "${GITHUB_API_HEADER}" ${DEPLOYMENTS_STATUSES_URI})
-
-echo "created new deployment status ${new_deployment_id}"
-
 
 AUTH_HEADER="Authorization: bearer ${ANYPOINT_TOKEN}"
 

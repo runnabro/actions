@@ -49,7 +49,6 @@ exact version that comes from git tag.
 
 ### TODO
 
- - [ ] publish status or deployment on GitHub after done
  - [ ] record demo
  - [ ] exit with code if publishing tags failed
 
@@ -133,10 +132,16 @@ We can create following fields through API and assign them instead of tags:
  - github `username`
  - link to the github commit
 
- Those are Exchnage APIs that can be used
-  - https://anypoint.mulesoft.com/exchange/portals/anypoint-platform/f1e97bc6-315a-4490-82a7-23abe036327a.anypoint-platform/exchange-experience-api/1.0.11/console/method/%231110/
-  - https://anypoint.mulesoft.com/exchange/portals/anypoint-platform/f1e97bc6-315a-4490-82a7-23abe036327a.anypoint-platform/exchange-experience-api/1.0.11/console/method/%231800/
+ Those are Exchnage APIs that can be used:
+ 
+ - https://anypoint.mulesoft.com/exchange/portals/anypoint-platform/f1e97bc6-315a-4490-82a7-23abe036327a.anypoint-platform/exchange-experience-api/1.0.11/console/method/%231110/
+ - https://anypoint.mulesoft.com/exchange/portals/anypoint-platform/f1e97bc6-315a-4490-82a7-23abe036327a.anypoint-platform/exchange-experience-api/1.0.11/console/method/%231800/
 
  ### User defined tags
 
  We can allow user to pass tags into the Action as argument. 
+
+ ### GitHub Deployments
+
+ Publish status or deployment on GitHub after done. This is currently not supported by GitHub Actions
+ https://developer.github.com/actions/creating-workflows/workflow-configuration-options/#workflow-limitations
