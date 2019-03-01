@@ -52,7 +52,61 @@ exact version that comes from git tag.
  - [ ] publish status or deployment on GitHub after done
  - [ ] record demo
 
+### Workflow
+
+To include this action just add following code to your flow.
+
+Handle `push` event and publish `snapshot`:
+
+```
+workflow "On Push" {
+  resolves = ["sync-raml"]
+  on = "push"
+}
+
+action "sync-raml" {
+  uses = "repetitive/actions/exchange-sync@feature/exchange-sync"
+  args = "-o a95e7484-821e-4c5a-ac7f-f357dec2c2c2 -a helloworld -p raml -m api.raml"
+  secrets = ["ANYPOINT_TOKEN"]
+}
+```
+
+Handle `pull_request` event and publish `snapshot`:
+
+```
+workflow "On Pull Request" {
+  resolves = ["sync-raml"]
+  on = "pull_request"
+}
+
+action "sync-raml" {
+  uses = "repetitive/actions/exchange-sync@feature/exchange-sync"
+  args = "-o a95e7484-821e-4c5a-ac7f-f357dec2c2c2 -a helloworld -p raml -m api.raml"
+  secrets = ["ANYPOINT_TOKEN"]
+}
+```
+
+Handle `release` event and publish `release`:
+
+```
+workflow "On Release" {
+  resolves = ["sync-raml"]
+  on = "release"
+}
+
+action "sync-raml" {
+  uses = "repetitive/actions/exchange-sync@feature/exchange-sync"
+  args = "-o a95e7484-821e-4c5a-ac7f-f357dec2c2c2 -a helloworld -p raml -m api.raml"
+  secrets = ["ANYPOINT_TOKEN"]
+}
+```
+
 ## Ideas 
+
+### Other types
+
+For now the only supported asset type is `RAML`.
+Adding other types is doable.
 
 ### Custom fields
 

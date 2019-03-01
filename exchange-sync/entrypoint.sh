@@ -4,7 +4,7 @@ set -e
 
 echo "==========Starting Anypoint Exchange Sync=========="
 
-echo "Handle ${GITHUB_EVENT_NAME} event"
+echo "Handle ${GITHUB_EVENT_NAME} event and ref: ${GITHUB_REF}"
 
 if [[ -z "$ANYPOINT_TOKEN" ]]; then
 	echo "Set the ANYPOINT_TOKEN env variable."
@@ -60,20 +60,22 @@ if [[ $GITHUB_EVENT_NAME == "release" ]]; then
   echo "handle release"
   TAG="$(jq -r ".release.tag_name" "$GITHUB_EVENT_PATH")"
   ACTION="$(jq -r ".action" "$GITHUB_EVENT_PATH")"
-  if [[ $ACTION != "published"]]; then
-	echo "Nothing to do for action ${ACTION}"
-	exit 78
-  fi
+  if [ $ACTION != "published"]
+    then
+      echo "Nothing to do for action ${ACTION}"
+      exit 78
+    fi
   ASSET_VERSION=TAG
 fi
 ## if pull request the version is latest tag + '-PR-{NUMBER}'
 if [[ $GITHUB_EVENT_NAME == "pull_request" ]]; then
   echo "handle pull_request"
   ACTION="$(jq -r ".action" "$GITHUB_EVENT_PATH")"
-  if [[ $ACTION != "opened"] | [ $ACTION != "synchronize"]]; then
-	echo "Nothing to do for action ${ACTION}"
-	exit 78
-  fi
+  if [ "$ACTION" == "opened" ] || [ "$ACTION" == "synchronize" ]
+    then
+      echo "Nothing to do for action ${ACTION}"
+      exit 78
+    fi
   PR_NUMBER="$(jq -r ".number" "$GITHUB_EVENT_PATH")"
   ASSET_VERSION="${LAST_TAG}-PR-${PR_NUMBER}"
   # TODO check that action is sync or open
