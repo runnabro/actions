@@ -90,6 +90,8 @@ if [[ $GITHUB_EVENT_NAME == "pull_request" ]]; then
   # TODO check that action is sync or open
 fi
 
+echo "Asset version is $ASSET_VERSION"
+
 zip -j -r raml.zip ${RAML_PATH}
 
 echo "Created Zip Archive"
