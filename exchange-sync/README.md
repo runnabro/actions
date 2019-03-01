@@ -51,6 +51,7 @@ exact version that comes from git tag.
 
  - [ ] publish status or deployment on GitHub after done
  - [ ] record demo
+ - [ ] exit with code if publishing tags failed
 
 ### Workflow
 
