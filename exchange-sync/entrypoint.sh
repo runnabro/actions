@@ -96,7 +96,7 @@ echo "Created Zip Archive"
 
 AUTH_HEADER="Authorization: bearer ${ANYPOINT_TOKEN}"
 
-status_code=$(curl -v -i -X POST \
+status_code=$(curl -i -X POST \
    -H "${AUTH_HEADER}" \
    -H "Content-Type:multipart/form-data" \
    -F "name=${ASSET_ID}" \

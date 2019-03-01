@@ -16,7 +16,7 @@ inventing anything.
 
 The action can be used in 3 types of flows/events:
 
- - `push` event
+ - `push` event. We recommend to chain it with `Filter Master Branch` GitHub Action
  - `pull_request` event: opened or `synchronized`
  - `release` event
 
