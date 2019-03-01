@@ -49,7 +49,6 @@ exact version that comes from git tag.
 
 ### TODO
 
- - [ ] get token using clientid/clientsecret
  - [ ] publish status or deployment on GitHub after done
  - [ ] record demo
 
@@ -68,7 +67,12 @@ workflow "On Push" {
 action "sync-raml" {
   uses = "repetitive/actions/exchange-sync@feature/exchange-sync"
   args = "-o a95e7484-821e-4c5a-ac7f-f357dec2c2c2 -a helloworld -p raml -m api.raml"
-  secrets = ["ANYPOINT_TOKEN"]
+  secrets = [
+    "ANYPOINT_PASSWORD",
+  ]
+  env = {
+    ANYPOINT_USERNAME = "brian-nazareth"
+  }
 }
 ```
 
@@ -83,7 +87,12 @@ workflow "On Pull Request" {
 action "sync-raml" {
   uses = "repetitive/actions/exchange-sync@feature/exchange-sync"
   args = "-o a95e7484-821e-4c5a-ac7f-f357dec2c2c2 -a helloworld -p raml -m api.raml"
-  secrets = ["ANYPOINT_TOKEN"]
+  secrets = [
+    "ANYPOINT_PASSWORD",
+  ]
+  env = {
+    ANYPOINT_USERNAME = "brian-nazareth"
+  }
 }
 ```
 
@@ -98,7 +107,12 @@ workflow "On Release" {
 action "sync-raml" {
   uses = "repetitive/actions/exchange-sync@feature/exchange-sync"
   args = "-o a95e7484-821e-4c5a-ac7f-f357dec2c2c2 -a helloworld -p raml -m api.raml"
-  secrets = ["ANYPOINT_TOKEN"]
+  secrets = [
+    "ANYPOINT_PASSWORD",
+  ]
+  env = {
+    ANYPOINT_USERNAME = "brian-nazareth"
+  }
 }
 ```
 

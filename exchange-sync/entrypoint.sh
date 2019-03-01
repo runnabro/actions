@@ -18,7 +18,7 @@ fi
 
 ANYPOINT_URL="https://qax.anypoint.mulesoft.com"
 
-ANYPOINT_TOKEN=$(curl --silent ${ANYPOINT_URL}/accounts/login -XPOST -d "username=${ANYPOINT_USERNAME}&password=${ANYPOINT_PASSWORD}" | jq '.access_token')
+ANYPOINT_TOKEN=$(curl --silent ${ANYPOINT_URL}/accounts/login -XPOST -d "username=${ANYPOINT_USERNAME}&password=${ANYPOINT_PASSWORD}" | jq -r '.access_token')
 
 # parse args
 while [[ $# -gt 0 ]]
