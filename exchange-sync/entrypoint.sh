@@ -62,7 +62,7 @@ echo "Git latest tags: ${LAST_TAG}"
 ## if push the version is latest tag + '-NEXT'
 if [[ $GITHUB_EVENT_NAME == "push" ]]; then
   echo "handle push"
-  ASSET_VERSION="${LAST_TAG}-NEXT-SNAPSHOT"
+  ASSET_VERSION="$LAST_TAG-NEXT"
 fi
 ## if release ASSET version is from the release
 if [[ $GITHUB_EVENT_NAME == "release" ]]; then
@@ -71,10 +71,10 @@ if [[ $GITHUB_EVENT_NAME == "release" ]]; then
   ACTION="$(jq -r ".action" "$GITHUB_EVENT_PATH")"
   if [ "$ACTION" != "published"]
     then
-      echo "Nothing to do for action ${ACTION}"
+      echo "Nothing to do for action $ACTION"
       exit 78
     fi
-  ASSET_VERSION=TAG
+  ASSET_VERSION="$TAG"
 fi
 ## if pull request the version is latest tag + '-PR-{NUMBER}'
 if [[ $GITHUB_EVENT_NAME == "pull_request" ]]; then
@@ -82,11 +82,11 @@ if [[ $GITHUB_EVENT_NAME == "pull_request" ]]; then
   ACTION=$(jq -r ".action" "$GITHUB_EVENT_PATH")
   if [ "$ACTION" != "opened" ] && [ "$ACTION" != "synchronize" ]
     then
-      echo "Nothing to do for action ${ACTION}"
+      echo "Nothing to do for action $ACTION"
       exit 78
     fi
   PR_NUMBER="$(jq -r ".number" "$GITHUB_EVENT_PATH")"
-  ASSET_VERSION="${LAST_TAG}-PR-${PR_NUMBER}-SNAPSHOT"
+  ASSET_VERSION="$LAST_TAG-PR-$PR_NUMBER"
   # TODO check that action is sync or open
 fi
 
