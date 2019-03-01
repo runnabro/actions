@@ -170,19 +170,19 @@ echo "Created Zip Archive"
 REPO_FULLNAME=$(jq -r ".repository.full_name" "$GITHUB_EVENT_PATH")
 
 DEFAULT_BRANCH=$(jq -r ".repository.default_branch" "$GITHUB_EVENT_PATH")
-echo "Creating new PR for $REPO_FULLNAME..."
+echo "Creating new deployment for $REPO_FULLNAME..."
 
 GITHUB_URI=https://api.github.com
 DEPLOYMENTS_URI="${GITHUB_URI}/repos/$REPO_FULLNAME/deployments"
 GITHUB_API_HEADER="Accept: application/vnd.github.ant-man-preview+json"
 GITHUB_AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
 
-new_deployment_id=$(curl --data "{\"environment\":\"production\", \"ref\": \"$GITHUB_REF\", \"description\": \"Deploy to Anypoint Exchange\"}" -X POST -s -H "${GITHUB_AUTH_HEADER}" -H "${GITHUB_API_HEADER}" ${DEPLOYMENTS_URI} | jq -r 'id')
+new_deployment_id=$(curl --data "{\"environment\":\"production\", \"ref\": \"$GITHUB_REF\", \"description\": \"Deploy to Anypoint Exchange\"}" -X POST -s -H "${GITHUB_AUTH_HEADER}" -H "${GITHUB_API_HEADER}" ${DEPLOYMENTS_URI})
 
 echo "created new deployment ${new_deployment_id}"
 
 DEPLOYMENTS_STATUSES_URI="${DEPLOYMENTS_URI}/${new_deployment_id}/statuses"
-new_deployment_id=$(curl --data "{\"environment\":\"production\", \"state\":\"success\", \"ref\": \"$GITHUB_REF\", \"description\": \"Deployed to Anypoint Exchange\"}" -X POST -s -H "${GITHUB_AUTH_HEADER}" -H "${GITHUB_API_HEADER}" ${DEPLOYMENTS_STATUSES_URI} | jq -r 'id')
+new_deployment_id=$(curl --data "{\"environment\":\"production\", \"state\":\"success\", \"ref\": \"$GITHUB_REF\", \"description\": \"Deployed to Anypoint Exchange\"}" -X POST -s -H "${GITHUB_AUTH_HEADER}" -H "${GITHUB_API_HEADER}" ${DEPLOYMENTS_STATUSES_URI})
 
 echo "created new deployment status ${new_deployment_id}"
 
