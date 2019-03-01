@@ -29,12 +29,12 @@ It's up to you to define your workflow.
 When the code is pushed `push` flow will be triggered.
 This event should be only used on the master branch.
 New asset will be published automatically with the version in the format:
-`${latest-tag}-NEXT-SNAPSHOT`. *Note*, if repo has new tags then the version will be `0.0.1-NEXT-SNAPSHOT`. 
+`${incremented-latest-tag}-SNAPSHOT`. *Note*, if repo has new tags then the version will be `0.0.1-NEXT-SNAPSHOT`. 
 
 ### Pull Request
 
 When Pull request is opened or synchronized we will publish new version of the asset
-with the version in the format: `${latest-tag}-PR-${PR_NUMBER}-SNAPSHOT`.
+with the version in the format: `${incremented-latest-tag}-PR-${PR_NUMBER}-SNAPSHOT`.
 *Note*, if repo has new tags then the version will be `0.0.1-PR-${PR_NUMBER}-SNAPSHOT`. 
 
 ## Recommended use
