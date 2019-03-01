@@ -6,10 +6,19 @@ echo "==========Starting Anypoint Exchange Sync=========="
 
 echo "Handle ${GITHUB_EVENT_NAME} event and ref: ${GITHUB_REF}"
 
-if [[ -z "$ANYPOINT_TOKEN" ]]; then
-	echo "Set the ANYPOINT_TOKEN env variable."
+if [[ -z "$ANYPOINT_USERNAME" ]]; then
+	echo "Set the ANYPOINT_USERNAME env variable."
 	exit 1
 fi
+
+if [[ -z "$ANYPOINT_PASSWORD" ]]; then
+	echo "Set the ANYPOINT_PASSWORD env variable."
+	exit 1
+fi
+
+ANYPOINT_URL="https://qax.anypoint.mulesoft.com"
+
+ANYPOINT_TOKEN=$(curl --silent ${ANYPOINT_URL}/accounts/login -XPOST -d "username=${ANYPOINT_USERNAME}&password=${ANYPOINT_PASSWORD}" | jq '.access_token')
 
 # parse args
 while [[ $# -gt 0 ]]
@@ -70,8 +79,8 @@ fi
 ## if pull request the version is latest tag + '-PR-{NUMBER}'
 if [[ $GITHUB_EVENT_NAME == "pull_request" ]]; then
   echo "handle pull_request"
-  ACTION="$(jq -r ".action" "$GITHUB_EVENT_PATH")"
-  if [ "$ACTION" == "opened" ] || [ "$ACTION" == "synchronize" ]
+  ACTION=$(jq -r ".action" "$GITHUB_EVENT_PATH")
+  if [ "$ACTION" != "opened" ] && [ "$ACTION" != "synchronize" ]
     then
       echo "Nothing to do for action ${ACTION}"
       exit 78
@@ -99,7 +108,7 @@ status_code=$(curl -v -i -X POST \
    -F "main=${MAIN_FILE}" \
    -F "organizationId=${ORG_ID}" \
    -F "someFileName=@\"raml.zip\";type=application/zip;filename=\"raml.zip\"" \
- https://qax.anypoint.mulesoft.com/exchange/api/v1/assets)
+ ${ANYPOINT_URL}/exchange/api/v1/assets)
 
 if [[ "$status_code" -ne 201 ]] ; then
   echo "Errored while pushing to Exchange. Status code: $status_code"
@@ -107,11 +116,11 @@ if [[ "$status_code" -ne 201 ]] ; then
 fi
 
 
-exchange_url="https://qax.anypoint.mulesoft.com/exchange/${ORG_ID}/${ASSET_ID}/"
+exchange_url="${ANYPOINT_URL}/exchange/${ORG_ID}/${ASSET_ID}/"
 echo "Published to ${exchange_url}"
 
 echo "Publish tags. Start."
-TAGS_URI="https://qax.anypoint.mulesoft.com/exchange/api/v1/organizations/${ORG_ID}/assets/${ORG_ID}/${ASSET_ID}/1.0.1-SNAPSHOT/tags"
+TAGS_URI="${ANYPOINT_URL}/exchange/api/v1/organizations/${ORG_ID}/assets/${ORG_ID}/${ASSET_ID}/1.0.1-SNAPSHOT/tags"
 
 tags_resp=$(curl --data "[{\"key\":\"github_commit\", \"value\": \"github_commit:$GITHUB_SHA\", \"mutable\": false}, {\"key\":\"github_user\", \"value\": \"github_user:$GITHUB_ACTOR\", \"mutable\": false}, {\"key\":\"github_repo\", \"value\": \"github_repo:$GITHUB_REPOSITORY\", \"mutable\": false}]" -X PUT -s -H "Content-Type:application/json" -H "${AUTH_HEADER}" ${TAGS_URI})
 
