@@ -188,6 +188,10 @@ echo "resp ${status_code}"
 exchange_url="${ANYPOINT_URL}/exchange/${ORG_ID}/${ASSET_ID}/"
 echo "Published to ${exchange_url}"
 
+designer_url="${ANYPOINT_URL}/designcenter/designer/#/exchange/${ORG_ID}/${ASSET_ID}/${ASSET_VERSION}"
+
+echo "Open in the designer ${designer_url}"
+
 echo "Publish tags. Start."
 TAGS_URI="${ANYPOINT_URL}/exchange/api/v1/organizations/${ORG_ID}/assets/${ORG_ID}/${ASSET_ID}/${ASSET_VERSION}/tags"
 
