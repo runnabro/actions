@@ -16,7 +16,7 @@ if [[ -z "$ANYPOINT_PASSWORD" ]]; then
 	exit 1
 fi
 
-ANYPOINT_URL="https://qax.anypoint.mulesoft.com"
+ANYPOINT_URL="https://stgx.anypoint.mulesoft.com"
 
 ANYPOINT_TOKEN=$(curl --silent ${ANYPOINT_URL}/accounts/login -XPOST -d "username=${ANYPOINT_USERNAME}&password=${ANYPOINT_PASSWORD}" | jq -r '.access_token')
 
